@@ -7,4 +7,5 @@ class TransactionDto {
     lateinit var accountId: UUID
     lateinit var amount: BigDecimal
     lateinit var description: String
+    lateinit var type : Transaction.Type
 }

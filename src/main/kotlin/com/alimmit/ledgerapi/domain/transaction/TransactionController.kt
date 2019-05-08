@@ -18,7 +18,7 @@ class TransactionController(val transactionService: TransactionService) {
     }
 
     @PostMapping
-    fun create(dto : TransactionDto) : Transaction {
+    fun create(@RequestBody dto : TransactionDto) : Transaction {
         return transactionService.create(dto)
     }
 }

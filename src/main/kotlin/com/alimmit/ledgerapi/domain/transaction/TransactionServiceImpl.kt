@@ -9,9 +9,9 @@ import javax.transaction.Transactional
 import kotlin.NoSuchElementException
 
 @Service
+@Transactional
 class TransactionServiceImpl(val transactionRepository: TransactionRepository, val accountRepository: AccountRepository) : TransactionService {
 
-    @Transactional
     override fun create(transactionDto: TransactionDto): Transaction {
 
         val account = accountRepository.findById(transactionDto.accountId).orElseThrow { NoSuchElementException("Account not found") }
@@ -20,7 +20,7 @@ class TransactionServiceImpl(val transactionRepository: TransactionRepository, v
         transaction.account = account
         transaction.amount = transactionDto.amount
         transaction.description = transactionDto.description
-        transaction.type = Transaction.Type.Debit
+        transaction.type = transactionDto.type
         transaction.status = Transaction.Status.Pending
 
         return transactionRepository.save(transaction)
