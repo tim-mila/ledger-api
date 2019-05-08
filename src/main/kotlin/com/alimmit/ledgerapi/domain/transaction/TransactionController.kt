@@ -9,19 +9,16 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/transactions/{accountId}")
+@RequestMapping("/transaction")
 class TransactionController(val transactionService: TransactionService) {
 
     @GetMapping
-    fun page(@PathVariable accountId: UUID, @PageableDefault(size = 25) @SortDefault(sort = [ "createdDate" ], direction = Sort.Direction.DESC) pageable: Pageable) : Page<Transaction> {
+    fun page(@RequestParam("accountId") accountId: UUID, @PageableDefault(size = 25) @SortDefault(sort = [ "createdDate" ], direction = Sort.Direction.DESC) pageable: Pageable) : Page<Transaction> {
         return transactionService.page(accountId, pageable)
     }
 
     @PostMapping
-    fun create(@PathVariable accountId: UUID, dto : TransactionDto) : Transaction {
-        if (accountId == dto.accountId) {
-            throw IllegalArgumentException()
-        }
+    fun create(dto : TransactionDto) : Transaction {
         return transactionService.create(dto)
     }
 }
